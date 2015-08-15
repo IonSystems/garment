@@ -52,6 +52,7 @@ static void lcd_status_screen();
 extern bool powersupply;
 static void lcd_main_menu();
 static void lcd_tune_menu();
+static void lcd_commands_menu();
 static void lcd_prepare_menu();
 static void lcd_move_menu();
 static void lcd_control_menu();
@@ -336,6 +337,7 @@ static void lcd_main_menu()
 {
     START_MENU();
     MENU_ITEM(back, MSG_WATCH, lcd_status_screen);
+	MENU_ITEM(submenu, MSG_COMMANDS, lcd_commands_menu);
     if (movesplanned() || IS_SD_PRINTING)
     {
         MENU_ITEM(submenu, MSG_TUNE, lcd_tune_menu);
@@ -452,6 +454,14 @@ static void lcd_tune_menu()
 #ifdef FILAMENTCHANGEENABLE
      MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
 #endif
+    END_MENU();
+}
+
+static void lcd_commands_menu()
+{
+    START_MENU();
+    MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
+	//MENU_ITEM(submenu, MSG_MAG_ENGAGE, lcd_engage_magnet);
     END_MENU();
 }
 
@@ -601,6 +611,10 @@ void lcd_cooldown()
     setTargetBed(0);
     fanSpeed = 0;
     lcd_return_to_status();
+}
+
+void lcd_engage_magnet(){
+	
 }
 
 static void lcd_prepare_menu()

@@ -1,6 +1,4 @@
 #ifndef ULTRA_LCD_IMPLEMENTATION_HITACHI_HD44780_H
-#define ULTRA_LCD_IMPLEMENTATION_HITACHI_HD44780_H
-
 /**
 * Implementation of the LCD display routines for a Hitachi HD44780 display. These are common LCD character displays.
 * When selecting the Russian language, a slightly different LCD implementation is used to handle UTF8 characters.
@@ -135,7 +133,10 @@ extern volatile uint16_t buttons;  //an extended version of the last checked but
 #endif 
 
 #endif //ULTIPANEL
-
+//Import Time.h if GARMENT_V1
+#ifdef GARMENT_V1
+  //#import <Time.h>
+#endif
 ////////////////////////////////////
 // Create LCD class instance and chipset-specific information
 #if defined(LCD_I2C_TYPE_PCF8575)
@@ -455,62 +456,69 @@ Possible status screens:
 */
 static void lcd_implementation_status_screen()
 {
-    int tHotend=int(degHotend(0) + 0.5);
-    int tTarget=int(degTargetHotend(0) + 0.5);
-
-#if LCD_WIDTH < 20
-    lcd.setCursor(0, 0);
-    lcd.print(itostr3(tHotend));
-    lcd.print('/');
-    lcd.print(itostr3left(tTarget));
-
-# if EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
-    //If we have an 2nd extruder or heated bed, show that in the top right corner
-    lcd.setCursor(8, 0);
-#  if EXTRUDERS > 1
-    tHotend = int(degHotend(1) + 0.5);
-    tTarget = int(degTargetHotend(1) + 0.5);
-    lcd.print(LCD_STR_THERMOMETER[0]);
-#  else//Heated bed
-    tHotend=int(degBed() + 0.5);
-    tTarget=int(degTargetBed() + 0.5);
-    lcd.print(LCD_STR_BEDTEMP[0]);
-#  endif
-    lcd.print(itostr3(tHotend));
-    lcd.print('/');
-    lcd.print(itostr3left(tTarget));
-# endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
-
-#else//LCD_WIDTH > 19
-    lcd.setCursor(0, 0);
-    lcd.print(LCD_STR_THERMOMETER[0]);
-    lcd.print(itostr3(tHotend));
-    lcd.print('/');
-    lcd.print(itostr3left(tTarget));
-    lcd_printPGM(PSTR(LCD_STR_DEGREE " "));
-    if (tTarget < 10)
-        lcd.print(' ');
-
-# if EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
-    //If we have an 2nd extruder or heated bed, show that in the top right corner
-    lcd.setCursor(10, 0);
-#  if EXTRUDERS > 1
-    tHotend = int(degHotend(1) + 0.5);
-    tTarget = int(degTargetHotend(1) + 0.5);
-    lcd.print(LCD_STR_THERMOMETER[0]);
-#  else//Heated bed
-    tHotend=int(degBed() + 0.5);
-    tTarget=int(degTargetBed() + 0.5);
-    lcd.print(LCD_STR_BEDTEMP[0]);
-#  endif
-    lcd.print(itostr3(tHotend));
-    lcd.print('/');
-    lcd.print(itostr3left(tTarget));
-    lcd_printPGM(PSTR(LCD_STR_DEGREE " "));
-    if (tTarget < 10)
-        lcd.print(' ');
-# endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
-#endif//LCD_WIDTH > 19
+#ifndef GARMENT_V1
+      int tHotend=int(degHotend(0) + 0.5);
+      int tTarget=int(degTargetHotend(0) + 0.5);
+  
+  #if LCD_WIDTH < 20
+      lcd.setCursor(0, 0);
+      lcd.print(itostr3(tHotend));
+      lcd.print('/');
+      lcd.print(itostr3left(tTarget));
+  
+  # if EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
+      //If we have an 2nd extruder or heated bed, show that in the top right corner
+      lcd.setCursor(8, 0);
+  #  if EXTRUDERS > 1
+      tHotend = int(degHotend(1) + 0.5);
+      tTarget = int(degTargetHotend(1) + 0.5);
+      lcd.print(LCD_STR_THERMOMETER[0]);
+  #  else//Heated bed
+      tHotend=int(degBed() + 0.5);
+      tTarget=int(degTargetBed() + 0.5);
+      lcd.print(LCD_STR_BEDTEMP[0]);
+  #  endif
+      lcd.print(itostr3(tHotend));
+      lcd.print('/');
+      lcd.print(itostr3left(tTarget));
+  # endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
+  
+  #else//LCD_WIDTH > 19
+      lcd.setCursor(0, 0);
+      lcd.print(LCD_STR_THERMOMETER[0]);
+      lcd.print(itostr3(tHotend));
+      lcd.print('/');
+      lcd.print(itostr3left(tTarget));
+      lcd_printPGM(PSTR(LCD_STR_DEGREE " "));
+      if (tTarget < 10)
+          lcd.print(' ');
+  
+  # if EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
+      //If we have an 2nd extruder or heated bed, show that in the top right corner
+      lcd.setCursor(10, 0);
+  #  if EXTRUDERS > 1
+      tHotend = int(degHotend(1) + 0.5);
+      tTarget = int(degTargetHotend(1) + 0.5);
+      lcd.print(LCD_STR_THERMOMETER[0]);
+  #  else//Heated bed
+      tHotend=int(degBed() + 0.5);
+      tTarget=int(degTargetBed() + 0.5);
+      lcd.print(LCD_STR_BEDTEMP[0]);
+  #  endif
+      lcd.print(itostr3(tHotend));
+      lcd.print('/');
+      lcd.print(itostr3left(tTarget));
+      lcd_printPGM(PSTR(LCD_STR_DEGREE " "));
+      if (tTarget < 10)
+          lcd.print(' ');
+  # endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
+  #endif//LCD_WIDTH > 19
+#else //ifdef GARMENT_V1
+ #if LCD_WIDTH > 19
+      lcd.setCursor(0, 0);
+      lcd.print("ChessMate v1.0");
+ #endif
+#endif //ifdef GARMENT_V1
 
 #if LCD_HEIGHT > 2
 //Lines 2 for 4 line LCD
@@ -543,12 +551,16 @@ static void lcd_implementation_status_screen()
     lcd.print('X');
     lcd.print(ftostr3(current_position[X_AXIS]));
     lcd_printPGM(PSTR(" Y"));
-    lcd.print(ftostr3(current_position[Y_AXIS]));
+    lcd.print(ftostr3(current_position[Z_AXIS])); //Z steppers are now used for Y, because we need 2 steppers for Y
 #  endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
 # endif//LCD_WIDTH > 19
     lcd.setCursor(LCD_WIDTH - 8, 1);
+#ifndef GARMENT_V1
     lcd.print('Z');
     lcd.print(ftostr32sp(current_position[Z_AXIS] + 0.00001));
+#else
+    starttime = millis();
+#endif
 #endif//LCD_HEIGHT > 2
 
 #if LCD_HEIGHT > 3
@@ -567,7 +579,11 @@ static void lcd_implementation_status_screen()
     lcd.print('%');
 #  endif//SDSUPPORT
 # endif//LCD_WIDTH > 19
+    #ifdef GARMENT_V1
+    lcd.setCursor(LCD_WIDTH - 6, 1);
+    #else
     lcd.setCursor(LCD_WIDTH - 6, 2);
+    #endif
     lcd.print(LCD_STR_CLOCK[0]);
     if(starttime != 0)
     {

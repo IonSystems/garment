@@ -40,6 +40,7 @@
 //===========================================================================
 //=============================public variables============================
 //===========================================================================
+boolean magnet_engaged = false;
 int target_temperature[EXTRUDERS] = { 0 };
 int target_temperature_bed = 0;
 int current_temperature_raw[EXTRUDERS] = { 0 };

@@ -16,6 +16,8 @@
 
   You should have received a copy of the GNU General Public License
   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
+  
+  Now includes magnet stuff, because magnets have a termperatue, therefore should be in here, flawless logic here.
 */
 
 #ifndef temperature_h
@@ -41,6 +43,7 @@ void manage_heater(); //it is critical that this is called periodically.
 
 // low level conversion routines
 // do not use these routines and variables outside of temperature.cpp
+extern boolean magnet_engaged;
 extern int target_temperature[EXTRUDERS];  
 extern float current_temperature[EXTRUDERS];
 #ifdef SHOW_TEMP_ADC_VALUES

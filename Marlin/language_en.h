@@ -98,6 +98,7 @@
 #define MSG_REFRESH                         "Refresh"
 #define MSG_WATCH                           "Info screen"
 #define MSG_PREPARE                         "Prepare"
+#define MSG_COMMANDS                        "Commands"
 #define MSG_TUNE                            "Tune"
 #define MSG_PAUSE_PRINT                     "Pause print"
 #define MSG_RESUME_PRINT                    "Resume print"
@@ -129,6 +130,7 @@
 #define MSG_BABYSTEP_Y                      "Babystep Y"
 #define MSG_BABYSTEP_Z                      "Babystep Z"
 #define MSG_ENDSTOP_ABORT                   "Endstop abort"
+#define MSG_MAG_ENGAGE						"Engage Magnet"
 
 #define MSG_RECTRACT                        "Rectract"
 
