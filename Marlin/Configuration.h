@@ -7,7 +7,6 @@
 // Advanced settings can be found in Configuration_adv.h
 // BASIC SETTINGS: select your board type, temperature sensor type, axis scaling, and endstop configuration
 
-//===========================================================================
 //============================= DELTA Printer ===============================
 //===========================================================================
 // For a Delta printer replace the configuration files with the files in the
@@ -22,6 +21,10 @@
 //
 // GARMENT DEFINITION HERE, uncomment to go back to normal
 #define GARMENT_V1
+#ifdef GARMENT_V1
+  #define GARMENT_SRV_ENGAGE "75"
+  #define GARMENT_SRV_DISENGAGE "20"
+#endif
 // User-specified version info of this build to display in [Pronterface, etc] terminal window during
 // startup. Implementation of an idea by Prof Braino to inform user that any changes made to this
 // build by the user have been successfully uploaded into firmware.
@@ -335,11 +338,11 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 
 // Travel limits after homing
-#define X_MAX_POS 205
+#define X_MAX_POS 390
 #define X_MIN_POS 0
 #define Y_MAX_POS 205
 #define Y_MIN_POS 0
-#define Z_MAX_POS 200
+#define Z_MAX_POS 360
 #define Z_MIN_POS 0
 
 #define X_MAX_LENGTH (X_MAX_POS - X_MIN_POS)
@@ -476,13 +479,13 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 //// MOVEMENT SETTINGS
 #define NUM_AXIS 4 // The axis order in all axis related arrays is X, Y, Z, E
-#define HOMING_FEEDRATE {50*60, 50*60, 4*60, 0}  // set the homing speeds (mm/min)
+#define HOMING_FEEDRATE {100*60, 100*60, 100*60, 0}  // set the homing speeds (mm/min)
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {78.7402,78.7402,200.0*8/3,760*1.1}  // default steps per unit for Ultimaker
-#define DEFAULT_MAX_FEEDRATE          {500, 500, 5, 25}    // (mm/sec)
-#define DEFAULT_MAX_ACCELERATION      {9000,9000,100,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for Skeinforge 40+, for older versions raise them a lot.
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {56.5884,56.5884,56.5884,56.5884}  // default steps per unit for Ultimaker
+#define DEFAULT_MAX_FEEDRATE          {500, 500, 500, 25}    // (mm/sec)
+#define DEFAULT_MAX_ACCELERATION      {9000,9000,9000,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for Skeinforge 40+, for older versions raise them a lot.
 
 #define DEFAULT_ACCELERATION          3000    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
 #define DEFAULT_RETRACT_ACCELERATION  3000   // X, Y, Z and E max acceleration in mm/s^2 for retracts

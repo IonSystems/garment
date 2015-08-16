@@ -130,7 +130,8 @@
 #define MSG_BABYSTEP_Y                      "Babystep Y"
 #define MSG_BABYSTEP_Z                      "Babystep Z"
 #define MSG_ENDSTOP_ABORT                   "Endstop abort"
-#define MSG_MAG_ENGAGE						"Engage Magnet"
+#define MSG_MAG_ENGAGE						          "Engage Magnet"
+#define MSG_MAG_DISENGAGE                   "Disengage Magnet"
 
 #define MSG_RECTRACT                        "Rectract"
 

@@ -55,12 +55,14 @@ static void lcd_tune_menu();
 static void lcd_commands_menu();
 static void lcd_prepare_menu();
 static void lcd_move_menu();
+#ifndef GARMENT_V1
 static void lcd_control_menu();
 static void lcd_control_temperature_menu();
 static void lcd_control_temperature_preheat_pla_settings_menu();
 static void lcd_control_temperature_preheat_abs_settings_menu();
 static void lcd_control_motion_menu();
 static void lcd_control_volumetric_menu();
+#endif
 #ifdef DOGLCD
 static void lcd_set_contrast();
 #endif
@@ -347,7 +349,9 @@ static void lcd_main_menu()
         MENU_ITEM(submenu, MSG_DELTA_CALIBRATE, lcd_delta_calibrate_menu);
 #endif // DELTA_CALIBRATION_MENU
     }
+#ifndef GARMENT_V1
     MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
+#endif
 #ifdef SDSUPPORT
     if (card.cardOK)
     {
@@ -461,7 +465,8 @@ static void lcd_commands_menu()
 {
     START_MENU();
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
-	//MENU_ITEM(submenu, MSG_MAG_ENGAGE, lcd_engage_magnet);
+    MENU_ITEM(gcode, MSG_MAG_ENGAGE, PSTR("M280 P0 S" GARMENT_SRV_ENGAGE));
+    MENU_ITEM(gcode, MSG_MAG_DISENGAGE, PSTR("M280 P0 S" GARMENT_SRV_DISENGAGE));
     END_MENU();
 }
 
@@ -688,6 +693,9 @@ static void _lcd_move(const char *name, int axis, int min, int max) {
   if (LCD_CLICKED) lcd_goto_menu(lcd_move_menu_axis);
 }
 static void lcd_move_x() { _lcd_move(PSTR("X"), X_AXIS, X_MIN_POS, X_MAX_POS); }
+#ifdef GARMENT_V1
+static void lcd_move_y() { _lcd_move(PSTR("Y"), Z_AXIS, Z_MIN_POS, Z_MAX_POS); }//Ditch move Z and E option, make Y function move Z (for 2 stepper movement)
+#else
 static void lcd_move_y() { _lcd_move(PSTR("Y"), Y_AXIS, Y_MIN_POS, Y_MAX_POS); }
 static void lcd_move_z() { _lcd_move(PSTR("Z"), Z_AXIS, Z_MIN_POS, Z_MAX_POS); }
 
@@ -711,18 +719,20 @@ static void lcd_move_e()
     }
     if (LCD_CLICKED) lcd_goto_menu(lcd_move_menu_axis);
 }
-
+#endif
 static void lcd_move_menu_axis()
 {
     START_MENU();
     MENU_ITEM(back, MSG_MOVE_AXIS, lcd_move_menu);
     MENU_ITEM(submenu, MSG_MOVE_X, lcd_move_x);
     MENU_ITEM(submenu, MSG_MOVE_Y, lcd_move_y);
-    if (move_menu_scale < 10.0)
-    {
-        MENU_ITEM(submenu, MSG_MOVE_Z, lcd_move_z);
-        MENU_ITEM(submenu, MSG_MOVE_E, lcd_move_e);
-    }
+    #ifndef GARMENT_V1
+      if (move_menu_scale < 10.0)
+      {
+          MENU_ITEM(submenu, MSG_MOVE_Z, lcd_move_z);
+          MENU_ITEM(submenu, MSG_MOVE_E, lcd_move_e);
+      }
+    #endif
     END_MENU();
 }
 
@@ -752,29 +762,29 @@ static void lcd_move_menu()
     //TODO:X,Y,Z,E
     END_MENU();
 }
-
-static void lcd_control_menu()
-{
-    START_MENU();
-    MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
-    MENU_ITEM(submenu, MSG_TEMPERATURE, lcd_control_temperature_menu);
-    MENU_ITEM(submenu, MSG_MOTION, lcd_control_motion_menu);
-	MENU_ITEM(submenu, MSG_VOLUMETRIC, lcd_control_volumetric_menu);
-
-#ifdef DOGLCD
-//    MENU_ITEM_EDIT(int3, MSG_CONTRAST, &lcd_contrast, 0, 63);
-    MENU_ITEM(submenu, MSG_CONTRAST, lcd_set_contrast);
-#endif
-#ifdef FWRETRACT
-    MENU_ITEM(submenu, MSG_RETRACT, lcd_control_retract_menu);
-#endif
-#ifdef EEPROM_SETTINGS
-    MENU_ITEM(function, MSG_STORE_EPROM, Config_StoreSettings);
-    MENU_ITEM(function, MSG_LOAD_EPROM, Config_RetrieveSettings);
-#endif
-    MENU_ITEM(function, MSG_RESTORE_FAILSAFE, Config_ResetDefault);
-    END_MENU();
-}
+#ifndef GARMENT_V1
+  static void lcd_control_menu()
+  {
+      START_MENU();
+      MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
+      MENU_ITEM(submenu, MSG_TEMPERATURE, lcd_control_temperature_menu);
+      MENU_ITEM(submenu, MSG_MOTION, lcd_control_motion_menu);
+  	MENU_ITEM(submenu, MSG_VOLUMETRIC, lcd_control_volumetric_menu);
+  
+  #ifdef DOGLCD
+  //    MENU_ITEM_EDIT(int3, MSG_CONTRAST, &lcd_contrast, 0, 63);
+      MENU_ITEM(submenu, MSG_CONTRAST, lcd_set_contrast);
+  #endif
+  #ifdef FWRETRACT
+      MENU_ITEM(submenu, MSG_RETRACT, lcd_control_retract_menu);
+  #endif
+  #ifdef EEPROM_SETTINGS
+      MENU_ITEM(function, MSG_STORE_EPROM, Config_StoreSettings);
+      MENU_ITEM(function, MSG_LOAD_EPROM, Config_RetrieveSettings);
+  #endif
+      MENU_ITEM(function, MSG_RESTORE_FAILSAFE, Config_ResetDefault);
+      END_MENU();
+  }
 
 static void lcd_control_temperature_menu()
 {
@@ -908,6 +918,7 @@ static void lcd_control_volumetric_menu()
 
 	END_MENU();
 }
+#endif
 
 #ifdef DOGLCD
 static void lcd_set_contrast()

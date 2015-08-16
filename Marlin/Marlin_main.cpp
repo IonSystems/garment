@@ -1472,7 +1472,7 @@ void process_commands()
 
           // take care of back off and rehome now we are all at the top
           HOMEAXIS(X);
-          HOMEAXIS(Y);
+          //HOMEAXIS(Y);
           HOMEAXIS(Z);
 
           calculate_delta(current_position);
@@ -1551,7 +1551,7 @@ void process_commands()
       }
 
       if((home_all_axis) || (code_seen(axis_codes[Y_AXIS]))) {
-        HOMEAXIS(Y);
+       // HOMEAXIS(Y);
       }
 
       if(code_seen(axis_codes[X_AXIS]))
