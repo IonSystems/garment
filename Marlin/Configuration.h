@@ -19,11 +19,11 @@
 // For a Delta printer replace the configuration files with the files in the
 // example_configurations/SCARA directory.
 //
-// GARMENT DEFINITION HERE, uncomment to go back to normal
-#define GARMENT_V1
-#ifdef GARMENT_V1
-  #define GARMENT_SRV_ENGAGE "75"
-  #define GARMENT_SRV_DISENGAGE "20"
+// TYRANT DEFINITION HERE, uncomment to go back to normal
+#define TYRANT_V1
+#ifdef TYRANT_V1
+  #define TYRANT_SRV_ENGAGE "75"
+  #define TYRANT_SRV_DISENGAGE "20"
 #endif
 // User-specified version info of this build to display in [Pronterface, etc] terminal window during
 // startup. Implementation of an idea by Prof Braino to inform user that any changes made to this
@@ -52,7 +52,7 @@
 #endif
 
 // Define this to set a custom name for your generic Mendel,
-// #define CUSTOM_MENDEL_NAME "This Mendel"
+#define CUSTOM_MENDEL_NAME "Tiberius Arm"
 
 // Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
 // You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)

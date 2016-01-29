@@ -133,8 +133,8 @@ extern volatile uint16_t buttons;  //an extended version of the last checked but
 #endif 
 
 #endif //ULTIPANEL
-//Import Time.h if GARMENT_V1
-#ifdef GARMENT_V1
+//Import Time.h if TYRANT_V1
+#ifdef TYRANT_V1
   //#import <Time.h>
 #endif
 ////////////////////////////////////
@@ -456,7 +456,7 @@ Possible status screens:
 */
 static void lcd_implementation_status_screen()
 {
-#ifndef GARMENT_V1
+#ifndef TYRANT_V1
       int tHotend=int(degHotend(0) + 0.5);
       int tTarget=int(degTargetHotend(0) + 0.5);
   
@@ -513,12 +513,12 @@ static void lcd_implementation_status_screen()
           lcd.print(' ');
   # endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
   #endif//LCD_WIDTH > 19
-#else //ifdef GARMENT_V1
+#else //ifdef TYRANT_V1
  #if LCD_WIDTH > 19
       lcd.setCursor(0, 0);
-      lcd.print("ChessMate v1.0");
+      lcd.print("Tyrant v1.0");
  #endif
-#endif //ifdef GARMENT_V1
+#endif //ifdef TYRANT_V1
 
 #if LCD_HEIGHT > 2
 //Lines 2 for 4 line LCD
@@ -555,7 +555,7 @@ static void lcd_implementation_status_screen()
 #  endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
 # endif//LCD_WIDTH > 19
     lcd.setCursor(LCD_WIDTH - 8, 1);
-#ifndef GARMENT_V1
+#ifndef TYRANT_V1
     lcd.print('Z');
     lcd.print(ftostr32sp(current_position[Z_AXIS] + 0.00001));
 #else
@@ -579,7 +579,7 @@ static void lcd_implementation_status_screen()
     lcd.print('%');
 #  endif//SDSUPPORT
 # endif//LCD_WIDTH > 19
-    #ifdef GARMENT_V1
+    #ifdef TYRANT_V1
     lcd.setCursor(LCD_WIDTH - 6, 1);
     #else
     lcd.setCursor(LCD_WIDTH - 6, 2);

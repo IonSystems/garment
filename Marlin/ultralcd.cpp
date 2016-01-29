@@ -55,7 +55,7 @@ static void lcd_tune_menu();
 static void lcd_commands_menu();
 static void lcd_prepare_menu();
 static void lcd_move_menu();
-#ifndef GARMENT_V1
+#ifndef TYRANT_V1
 static void lcd_control_menu();
 static void lcd_control_temperature_menu();
 static void lcd_control_temperature_preheat_pla_settings_menu();
@@ -349,7 +349,7 @@ static void lcd_main_menu()
         MENU_ITEM(submenu, MSG_DELTA_CALIBRATE, lcd_delta_calibrate_menu);
 #endif // DELTA_CALIBRATION_MENU
     }
-#ifndef GARMENT_V1
+#ifndef TYRANT_V1
     MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
 #endif
 #ifdef SDSUPPORT
@@ -465,8 +465,8 @@ static void lcd_commands_menu()
 {
     START_MENU();
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
-    MENU_ITEM(gcode, MSG_MAG_ENGAGE, PSTR("M280 P0 S" GARMENT_SRV_ENGAGE));
-    MENU_ITEM(gcode, MSG_MAG_DISENGAGE, PSTR("M280 P0 S" GARMENT_SRV_DISENGAGE));
+    MENU_ITEM(gcode, MSG_MAG_ENGAGE, PSTR("M280 P0 S" TYRANT_SRV_ENGAGE));
+    MENU_ITEM(gcode, MSG_MAG_DISENGAGE, PSTR("M280 P0 S" TYRANT_SRV_DISENGAGE));
     END_MENU();
 }
 
@@ -693,7 +693,7 @@ static void _lcd_move(const char *name, int axis, int min, int max) {
   if (LCD_CLICKED) lcd_goto_menu(lcd_move_menu_axis);
 }
 static void lcd_move_x() { _lcd_move(PSTR("X"), X_AXIS, X_MIN_POS, X_MAX_POS); }
-#ifdef GARMENT_V1
+#ifdef TYRANT_V1
 static void lcd_move_y() { _lcd_move(PSTR("Y"), Z_AXIS, Z_MIN_POS, Z_MAX_POS); }//Ditch move Z and E option, make Y function move Z (for 2 stepper movement)
 #else
 static void lcd_move_y() { _lcd_move(PSTR("Y"), Y_AXIS, Y_MIN_POS, Y_MAX_POS); }
@@ -726,7 +726,7 @@ static void lcd_move_menu_axis()
     MENU_ITEM(back, MSG_MOVE_AXIS, lcd_move_menu);
     MENU_ITEM(submenu, MSG_MOVE_X, lcd_move_x);
     MENU_ITEM(submenu, MSG_MOVE_Y, lcd_move_y);
-    #ifndef GARMENT_V1
+    #ifndef TYRANT_V1
       if (move_menu_scale < 10.0)
       {
           MENU_ITEM(submenu, MSG_MOVE_Z, lcd_move_z);
@@ -762,7 +762,7 @@ static void lcd_move_menu()
     //TODO:X,Y,Z,E
     END_MENU();
 }
-#ifndef GARMENT_V1
+#ifndef TYRANT_V1
   static void lcd_control_menu()
   {
       START_MENU();
